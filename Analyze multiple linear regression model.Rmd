@@ -1,0 +1,90 @@
+---
+title: "Analizar modelo regresion lineal multiple"
+author: "Felipe Yépez"
+date: "2022-11-26"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Predict Amount From Donators and Non-donators
+```{r}
+datos = read.csv("PreprocessedDouble.csv")
+```
+
+```{r}
+reg = lm(AmtGiven~Woman+Age+Salary+SeniorList+NbActivities+Referrals+Recency+Frequency+Seniority+TotalGift+MinGift+MaxGift+Elementary+HighSchool+University+Downtown+Rural+Suburban+JustGave+MeanGift, data=datos)
+```
+
+```{r}
+summary(reg)
+```
+
+```{r}
+step(reg, direction="both", trace=1)
+```
+```{r}
+best_reg = lm(formula = AmtGiven ~ Woman + Age + Salary + SeniorList + NbActivities + 
+    Referrals + Frequency + TotalGift + MaxGift + Elementary + 
+    Downtown + Rural + MeanGift, data = datos)
+```
+
+```{r}
+summary(best_reg)
+```
+
+
+# Predict Amount Just from Donators
+```{r}
+datos = read.csv("PreprocessedDoubleGave.csv")
+```
+
+```{r}
+reg = lm(AmtGiven~Woman+Age+Salary+SeniorList+NbActivities+Referrals+Recency+Frequency+Seniority+TotalGift+MinGift+MaxGift+Elementary+HighSchool+University+Downtown+Rural+Suburban+JustGave+MeanGift, data=datos)
+```
+
+```{r}
+summary(reg)
+```
+
+```{r}
+step(reg, direction="both", trace=1)
+```
+```{r}
+best_reg = lm(formula = AmtGiven ~ Woman + Age + Salary + SeniorList + NbActivities + 
+    Referrals + Recency + Frequency + Seniority + TotalGift + 
+    MinGift + MaxGift + Rural + JustGave + MeanGift, data = datos)
+```
+
+```{r}
+summary(best_reg)
+```
+
+
+# Probability of Donating
+```{r}
+datos = read.csv("PreprocessedDouble.csv")
+```
+
+```{r}
+reg = lm(Gave~Woman+Age+Salary+SeniorList+NbActivities+Referrals+Recency+Frequency+Seniority+TotalGift+MinGift+MaxGift+Elementary+HighSchool+University+Downtown+Rural+Suburban+JustGave+MeanGift, data=datos)
+```
+
+```{r}
+summary(reg)
+```
+
+```{r}
+step(reg, direction="both", trace=1)
+```
+```{r}
+best_reg = lm(formula = Gave ~ SeniorList + NbActivities + Referrals + Recency + 
+    Frequency + Seniority + TotalGift + MinGift + HighSchool + 
+    Downtown + Rural + Suburban + JustGave + MeanGift, data = datos)
+```
+
+```{r}
+summary(best_reg)
+```
